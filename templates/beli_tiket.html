@@ -1,0 +1,124 @@
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @layer base {
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      @apply bg-gray-900 text-gray-300;
+    }
+  }
+</style>
+
+<div class="py-12 bg-gray-950">
+  <div class="container mx-auto px-4 max-w-2xl">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-8">
+      <h1 class="text-3xl font-extrabold text-white text-center mb-2">
+        Form Pembelian Tiket
+      </h1>
+      <h2 class="text-xl text-purple-400 text-center mb-8">
+        {{ konser.nama }}
+      </h2>
+
+      <!-- PERUBAHAN KONDISI: Cek apakah jumlah tiket > 0 -->
+      {% if jumlah_tiket_tersedia > 0 %}
+
+      <!-- Tampilkan detail konser -->
+      <div class="mb-6 p-4 border border-purple-800 rounded-lg bg-gray-900/50">
+        <p>
+          <strong>Jadwal:</strong> {{ konser.tanggal_waktu.strftime('%A, %d %B
+          %Y - %H:%M WITA') if konser.tanggal_waktu else 'Segera Diumumkan' }}
+        </p>
+        <p>
+          <strong>Harga:</strong>
+          <span class="font-bold text-yellow-400"
+            >Rp{{ '{:,.0f}'.format(konser.harga) }}</span
+          >
+        </p>
+        <!-- PENAMBAHAN: Tampilkan jumlah tiket yang tersedia -->
+        <p>
+          <strong>Tiket Tersedia:</strong>
+          <span class="font-bold text-green-400"
+            >{{ jumlah_tiket_tersedia }}</span
+          >
+        </p>
+      </div>
+
+      <form action="{{ url_for('proses_pembelian') }}" method="POST">
+        <!-- Input tersembunyi untuk mengirim nama konser -->
+        <input type="hidden" name="nama_konser" value="{{ konser.nama }}" />
+
+        <h3 class="text-lg font-semibold text-white mb-4">
+          Isi Data Diri Anda:
+        </h3>
+        <div class="mb-5">
+          <label
+            for="nama_pembeli"
+            class="block text-sm font-medium text-purple-300 mb-2"
+            >Nama Lengkap</label
+          >
+          <input
+            type="text"
+            id="nama_pembeli"
+            name="nama_pembeli"
+            class="w-full p-3 bg-gray-700 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+            required
+          />
+        </div>
+        <div class="mb-5">
+          <label
+            for="email_pembeli"
+            class="block text-sm font-medium text-purple-300 mb-2"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email_pembeli"
+            name="email_pembeli"
+            class="w-full p-3 bg-gray-700 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+            required
+          />
+        </div>
+        <div class="mb-5">
+          <label
+            for="telepon_pembeli"
+            class="block text-sm font-medium text-purple-300 mb-2"
+            >Nomor Telepon</label
+          >
+          <input
+            type="tel"
+            id="telepon_pembeli"
+            name="telepon_pembeli"
+            class="w-full p-3 bg-gray-700 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-md transition duration-300 transform hover:scale-105"
+        >
+          Konfirmasi & Beli Tiket
+        </button>
+      </form>
+
+      {% else %}
+      <!-- Pesan jika tiket habis -->
+      <div
+        class="text-center p-8 bg-red-900/50 border border-red-500 rounded-lg"
+      >
+        <h2 class="text-2xl font-bold text-red-300 mb-2">Tiket Habis!</h2>
+        <p class="text-red-200">
+          Maaf, semua tiket untuk konser ini telah terjual.
+        </p>
+        <a
+          href="{{ url_for('home') }}"
+          class="inline-block mt-6 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+          >Kembali ke Homepage</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

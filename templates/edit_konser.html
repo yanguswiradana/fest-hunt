@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-3xl font-bold mb-6 text-gray-800">
+  Edit Konser: {{ konser.nama }}
+</h1>
+
+<div class="p-6 bg-white rounded-lg shadow-lg">
+  <form
+    action="{{ url_for('edit_konser', nama_konser_lama=konser.nama) }}"
+    method="POST"
+    enctype="multipart/form-data"
+    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
+    <div>
+      <label
+        for="nama_konser_baru"
+        class="block text-sm font-medium text-gray-700"
+        >Nama Konser Baru</label
+      >
+      <input
+        type="text"
+        name="nama_konser_baru"
+        value="{{ konser.nama }}"
+        required
+        class="mt-1 block w-full ..."
+      />
+    </div>
+    <div>
+      <label for="harga" class="block text-sm font-medium text-gray-700"
+        >Harga Tiket</label
+      >
+      <input
+        type="number"
+        name="harga"
+        value="{{ konser.harga }}"
+        required
+        min="0"
+        class="mt-1 block w-full ..."
+      />
+    </div>
+
+    <div class="md:col-span-2">
+      <label for="tanggal_waktu" class="block text-sm font-medium text-gray-700"
+        >Jadwal Konser (Tanggal & Waktu)</label
+      >
+      <input
+        type="datetime-local"
+        id="tanggal_waktu"
+        name="tanggal_waktu"
+        value="{{ konser.tanggal_waktu.strftime('%Y-%m-%dT%H:%M') if konser.tanggal_waktu else '' }}"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md ..."
+      />
+    </div>
+
+    <div>
+      <label for="gambar" class="block text-sm font-medium text-gray-700"
+        >Upload Gambar Baru (Opsional)</label
+      >
+      <input
+        type="file"
+        name="gambar"
+        accept="image/*"
+        class="mt-1 block w-full ..."
+      />
+      <p class="text-xs text-gray-500 mt-1">
+        Gambar saat ini: {{ konser.gambar }}
+      </p>
+    </div>
+    <div>
+      <label for="band" class="block text-sm font-medium text-gray-700"
+        >Band</label
+      >
+      <input
+        type="text"
+        name="band"
+        value="{{ konser.band }}"
+        required
+        class="mt-1 block w-full ..."
+      />
+    </div>
+    <div class="md:col-span-2">
+      <label for="deskripsi" class="block text-sm font-medium text-gray-700"
+        >Deskripsi</label
+      >
+      <textarea
+        name="deskripsi"
+        rows="3"
+        required
+        class="mt-1 block w-full ..."
+      >
+{{ konser.deskripsi }}</textarea
+      >
+    </div>
+    <div class="md:col-span-2 flex justify-end gap-4 mt-4">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Simpan Perubahan
+      </button>
+      <a
+        href="{{ url_for('kelola_konser') }}"
+        class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+        >Batal</a
+      >
+    </div>
+  </form>
+</div>
+{% endblock %}

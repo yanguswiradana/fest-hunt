@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FestHunt - Temukan Festival Musik Favoritmu di Denpasar!</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @layer base {
+        html {
+          scroll-behavior: smooth;
+        }
+        body {
+          @apply bg-gray-900 text-gray-300;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="bg-gray-900 p-4 shadow-md sticky top-0 z-50 shadow-purple-500/20"
+    >
+      <div class="container mx-auto flex justify-between items-center relative">
+        <ul class="hidden md:flex space-x-6">
+          <li>
+            <a href="/" class="font-medium hover:text-purple-400 text-gray-300"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#tiket"
+              class="font-medium hover:text-purple-400 text-gray-300"
+              >Tiket</a
+            >
+          </li>
+        </ul>
+        <a
+          href="/"
+          class="absolute left-1/2 transform -translate-x-1/2 text-purple-500 text-2xl font-bold z-10"
+          >FestHunt</a
+        >
+        <ul class="hidden md:flex space-x-6">
+          <li>
+            <a
+              href="#jadwal"
+              class="font-medium hover:text-purple-400 text-gray-300"
+              >Tim</a
+            >
+          </li>
+          <li>
+            <a
+              href="#kontak"
+              class="font-medium hover:text-purple-400 text-gray-300"
+              >Kontak</a
+            >
+          </li>
+        </ul>
+        <div class="md:hidden">
+          <button
+            id="mobile-menu-button"
+            class="text-gray-300 focus:outline-none"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        id="mobile-menu-items"
+        class="hidden md:hidden bg-gray-800 mt-2 rounded shadow-sm"
+      >
+        <ul class="flex flex-col space-y-2 p-4">
+          <li>
+            <a
+              href="/"
+              class="block font-medium hover:bg-gray-700 p-2 rounded text-gray-300"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#tiket"
+              class="block font-medium hover:bg-gray-700 p-2 rounded text-gray-300"
+              >Tiket</a
+            >
+          </li>
+          <li>
+            <a
+              href="#jadwal"
+              class="block font-medium hover:bg-gray-700 p-2 rounded text-gray-300"
+              >Tim</a
+            >
+          </li>
+          <li>
+            <a
+              href="#kontak"
+              class="block font-medium hover:bg-gray-700 p-2 rounded text-gray-300"
+              >Kontak</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <section
+      class="bg-gradient-to-r from-gray-900 via-purple-900 to-black py-20 px-4 sm:px-6 lg:px-8"
+      id="hero"
+    >
+      <div
+        class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center gap-12"
+      >
+        <div class="flex-shrink-0">
+          <img
+            src="/static/images/Fest.png"
+            alt="FestHunt Logo"
+            class="h-48 w-48 rounded-full object-cover shadow-lg mx-auto"
+          />
+        </div>
+
+        <div class="text-center md:text-left md:max-w-xl">
+          <h1
+            class="text-4xl sm:text-5xl font-extrabold text-white leading-tight mb-4"
+          >
+            Temukan Festival Impianmu di Bali
+          </h1>
+
+          <p class="text-xl text-purple-200 mb-8">
+            Platform terdepan untuk menemukan dan membeli tiket festival musik
+            dan acara paling seru di Denpasar dan sekitarnya.
+          </p>
+
+          <a
+            href="#tiket"
+            class="inline-block bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105"
+            >Lihat Semua Acara</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 bg-gray-950" id="tiket">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-extrabold text-white text-center mb-4">
+          Konser yang Akan Datang di Bali
+        </h2>
+
+        <!-- ===== BAGIAN BARU: SEARCH BAR ===== -->
+        <div class="mb-10 max-w-2xl mx-auto">
+          <form
+            action="{{ url_for('home') }}#tiket"
+            method="GET"
+            class="flex gap-2"
+          >
+            <input
+              type="text"
+              name="search_query"
+              placeholder="Cari nama konser, band, atau deskripsi..."
+              value="{{ search_query or '' }}"
+              class="flex-grow p-3 bg-gray-800 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+            />
+            <button
+              type="submit"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-md transition duration-300"
+            >
+              Cari
+            </button>
+            {% if search_query %}
+            <a
+              href="{{ url_for('home') }}#tiket"
+              class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-300"
+              >Reset</a
+            >
+            {% endif %}
+          </form>
+        </div>
+
+        {% if upcoming_konser %}
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {% for konser in upcoming_konser %}
+          <div
+            class="bg-gray-800 rounded-lg shadow-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-purple-500/50"
+          >
+            <img
+              src="{{ url_for('static', filename='images/' + konser.gambar) if konser.gambar else url_for('static', filename='images/default.jpg') }}"
+              alt="Poster {{ konser.nama }}"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-6">
+              <h3 class="text-2xl font-bold text-white mb-2">
+                {{ konser.nama }}
+              </h3>
+              <p class="text-purple-400 text-sm mb-4">
+                <span class="font-semibold">Jadwal:</span>
+                {% if konser.tanggal_waktu %}{{
+                konser.tanggal_waktu.strftime('%A, %d %B %Y - %H:%M WITA') }}{%
+                else %}Segera Diumumkan{% endif %}
+              </p>
+              <div class="mb-4">
+                <p class="font-semibold text-purple-300 mb-1">
+                  Band yang Manggung:
+                </p>
+                <ul class="list-disc list-inside text-purple-400 text-sm">
+                  {% for band_item in konser.band.split(',') %}
+                  <li>{{ band_item.strip() }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="flex justify-between items-baseline mt-4">
+                <span class="text-3xl font-extrabold text-yellow-400"
+                  >Rp{{ '{:,.0f}'.format(konser.harga) }}</span
+                >
+                <a
+                  href="{{ url_for('beli_tiket_page', nama_konser=konser.nama) }}"
+                  class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300"
+                >
+                  Beli Tiket
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <!-- Pesan yang lebih informatif jika tidak ada hasil -->
+        <p class="text-center text-gray-400">
+          {% if search_query %} Tidak ada konser yang cocok dengan pencarian "{{
+          search_query }}". {% else %} Belum ada konser yang tersedia saat ini.
+          Cek lagi nanti! {% endif %}
+        </p>
+        {% endif %}
+      </div>
+    </section>
+    <section class="py-16 bg-black text-white" id="jadwal">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-extrabold text-center mb-12">
+          Kenali Tim Kami
+        </h2>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8"
+        >
+          <div
+            class="flex flex-col items-center text-center bg-purple-900/50 p-6 rounded-lg shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-purple-400/30"
+          >
+            <img
+              src="/static/images/Fest.png"
+              alt="Foto Tim 1"
+              class="w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-purple-500"
+            />
+            <h3 class="text-xl font-bold text-white">I Wayan Agus Wiradana</h3>
+            <p class="text-purple-300 text-sm">NIM: 2401010112</p>
+          </div>
+          <div
+            class="flex flex-col items-center text-center bg-purple-900/50 p-6 rounded-lg shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-purple-400/30"
+          >
+            <img
+              src="/static/images/Fest.png"
+              alt="Foto Tim 2"
+              class="w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-purple-500"
+            />
+            <h3 class="text-xl font-bold text-white">I Gede Gandhi Waisnawa</h3>
+            <p class="text-purple-300 text-sm">NIM: 2401010113</p>
+          </div>
+          <div
+            class="flex flex-col items-center text-center bg-purple-900/50 p-6 rounded-lg shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-purple-400/30"
+          >
+            <img
+              src="/static/images/Fest.png"
+              alt="Foto Tim 3"
+              class="w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-purple-500"
+            />
+            <h3 class="text-xl font-bold text-white">
+              I Wayan Jhonantan Kevin Marandita
+            </h3>
+            <p class="text-purple-300 text-sm">NIM: 2401010143</p>
+          </div>
+          <div
+            class="flex flex-col items-center text-center bg-purple-900/50 p-6 rounded-lg shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-purple-400/30"
+          >
+            <img
+              src="/static/images/Fest.png"
+              alt="Foto Tim 4"
+              class="w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-purple-500"
+            />
+            <h3 class="text-xl font-bold text-white">I Kadek Budiarsa</h3>
+            <p class="text-purple-300 text-sm">NIM: 2401010145</p>
+          </div>
+          <div
+            class="flex flex-col items-center text-center bg-purple-900/50 p-6 rounded-lg shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-purple-400/30"
+          >
+            <img
+              src="/static/images/Fest.png"
+              alt="Foto Tim 5"
+              class="w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-purple-500"
+            />
+            <h3 class="text-xl font-bold text-white">Nama Anggota 5</h3>
+            <p class="text-purple-300 text-sm">NIM: 2022005</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-black text-white" id="kontak">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-extrabold text-center mb-12">Hubungi Kami</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="bg-purple-900/30 p-8 rounded-lg shadow-xl">
+            <h3 class="text-2xl font-bold mb-6">Kirim Pesan kepada Kami</h3>
+            <form action="#" method="POST" id="contact-form">
+              <div class="mb-5">
+                <label
+                  for="nama"
+                  class="block text-sm font-medium text-purple-300 mb-2"
+                  >Nama Lengkap</label
+                ><input
+                  type="text"
+                  id="nama"
+                  name="nama"
+                  class="w-full p-3 bg-gray-800 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Masukkan nama Anda"
+                  required
+                />
+              </div>
+              <div class="mb-5">
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-purple-300 mb-2"
+                  >Email</label
+                ><input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="w-full p-3 bg-gray-800 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Masukkan email Anda"
+                  required
+                />
+              </div>
+              <div class="mb-5">
+                <label
+                  for="pesan"
+                  class="block text-sm font-medium text-purple-300 mb-2"
+                  >Pesan</label
+                ><textarea
+                  id="pesan"
+                  name="pesan"
+                  rows="5"
+                  class="w-full p-3 bg-gray-800 border border-purple-800 rounded-md text-white focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Tulis pesan Anda di sini"
+                  required
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-md transition duration-300 transform hover:scale-105"
+              >
+                Kirim Pesan
+              </button>
+            </form>
+          </div>
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-2xl font-bold mb-4">Informasi Kontak</h3>
+              <p class="flex items-center mb-2">
+                <svg
+                  class="w-6 h-6 mr-3 text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-10C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  /></svg
+                >Denpasar, Bali
+              </p>
+              <p class="flex items-center mb-2">
+                <svg
+                  class="w-6 h-6 mr-3 text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  /></svg
+                >fesathunt@gmail.com
+              </p>
+              <p class="flex items-center">
+                <svg
+                  class="w-6 h-6 mr-3 text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.46.57 3.57.12.35.03.75-.24 1.02l-2.2 2.2z"
+                  /></svg
+                >+62 812-3456-7890
+              </p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-4">Lokasi Kami</h3>
+              <div
+                class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg"
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.200130095888!2d115.2148283152968!3d-8.67290069376663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2409b35da3623%3A0x28c946f906b976ce!2sDenpasar%2C%20Kota%20Denpasar%2C%20Bali!5e0!3m2!1sid!2sid!4v1624883193278!5m2!1sid!2sid"
+                  width="600"
+                  height="450"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  class="w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-gray-950 text-gray-400 p-4 text-center shadow-inner">
+      <p>© 2025 FestHunt. Hak Cipta Dilindungi.</p>
+    </footer>
+
+    <script>
+      document
+        .getElementById("mobile-menu-button")
+        ?.addEventListener("click", function () {
+          const mobileMenuItems = document.getElementById("mobile-menu-items");
+          mobileMenuItems.classList.toggle("hidden");
+        });
+      document.querySelectorAll('nav a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const mobileMenuItems =
+              document.getElementById("mobile-menu-items");
+            if (!mobileMenuItems.classList.contains("hidden")) {
+              mobileMenuItems.classList.add("hidden");
+            }
+            targetElement.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+      document
+        .getElementById("contact-form")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert(
+            "Pesan Anda telah terkirim! Kami akan segera menghubungi Anda."
+          );
+          this.reset();
+        });
+    </script>
+  </body>
+</html>

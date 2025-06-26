@@ -1,0 +1,158 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-3xl font-bold mb-6 text-gray-800">Kelola Konser</h1>
+
+<div class="mb-8 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-4">Tambah Konser Baru</h2>
+  <form
+    action="{{ url_for('tambah_konser') }}"
+    method="POST"
+    enctype="multipart/form-data"
+    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
+    <div>
+      <label for="nama_konser" class="block text-sm font-medium text-gray-700"
+        >Nama Konser</label
+      >
+      <input
+        type="text"
+        id="nama_konser"
+        name="nama_konser"
+        required
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+    <div>
+      <label for="harga" class="block text-sm font-medium text-gray-700"
+        >Harga Tiket Default</label
+      >
+      <input
+        type="number"
+        id="harga"
+        name="harga"
+        required
+        min="0"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+    <div>
+      <label for="gambar" class="block text-sm font-medium text-gray-700"
+        >Upload Gambar Konser</label
+      >
+      <input
+        type="file"
+        id="gambar"
+        name="gambar"
+        accept="image/*"
+        required
+        class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+      />
+    </div>
+    <div>
+      <label for="band" class="block text-sm font-medium text-gray-700"
+        >Band (pisahkan dengan koma)</label
+      >
+      <input
+        type="text"
+        id="band"
+        name="band"
+        required
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      />
+    </div>
+    <div class="md:col-span-2">
+      <label for="deskripsi" class="block text-sm font-medium text-gray-700"
+        >Deskripsi</label
+      >
+      <textarea
+        id="deskripsi"
+        name="deskripsi"
+        rows="3"
+        required
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      ></textarea>
+    </div>
+    <div class="md:col-span-2">
+      <button
+        type="submit"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Tambah Konser
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="mb-6">
+  <h2 class="text-2xl font-semibold text-gray-700 mb-3">Cari Konser</h2>
+  <form action="{{ url_for('cari_konser') }}" method="POST" class="flex gap-4">
+    <input
+      type="text"
+      name="query_konser"
+      placeholder="Cari berdasarkan nama konser..."
+      value="{{ search_query if search_query else '' }}"
+      class="flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Cari
+    </button>
+    {% if search_active %}
+    <a
+      href="{{ url_for('kelola_konser') }}"
+      class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+      >Reset Pencarian</a
+    >
+    {% endif %}
+  </form>
+</div>
+
+<h2 class="text-2xl font-semibold text-gray-700 mb-4">Daftar Konser</h2>
+{% if konser %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for k in konser %}
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+    <img
+      src="{{ url_for('static', filename='images/' + k.gambar) if k.gambar else url_for('static', filename='images/default.jpg') }}"
+      onerror="this.onerror=null;this.src='{{ url_for('static', filename='images/default.jpg') }}';"
+      alt="{{ k.nama }}"
+      class="w-full h-48 object-cover"
+    />
+    <div class="p-6 flex-grow">
+      <h3 class="text-xl font-bold text-gray-900 mb-2">{{ k.nama }}</h3>
+      <p class="text-gray-700 mb-2">
+        <strong>Harga:</strong> Rp{{ '{:,.0f}'.format(k.harga) }}
+      </p>
+      <p class="text-gray-700 mb-2">
+        <strong>Jadwal:</strong> {{ k.tanggal_waktu }}
+      </p>
+      <p class="text-gray-700 mb-2"><strong>Band:</strong> {{ k.band }}</p>
+      <p class="text-gray-600 text-sm">{{ k.deskripsi }}</p>
+    </div>
+    <div class="p-6 border-t border-gray-200 flex justify-end space-x-2">
+      <a
+        href="{{ url_for('edit_konser', nama_konser_lama=k.nama) }}"
+        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded text-sm"
+        >Edit</a
+      >
+      <form
+        action="{{ url_for('hapus_konser', nama_konser=k.nama) }}"
+        method="POST"
+        class="inline"
+      >
+        <button
+          type="submit"
+          onclick="return confirm('Yakin menghapus konser ini? Semua tiket terkait juga akan terhapus!')"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm"
+        >
+          Hapus
+        </button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-600">Tidak ada konser yang dijadwalkan.</p>
+{% endif %} {% endblock %}

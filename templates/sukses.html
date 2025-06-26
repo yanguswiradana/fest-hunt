@@ -1,0 +1,74 @@
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @layer base {
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      @apply bg-gray-900 text-gray-300;
+    }
+  }
+</style>
+
+<div class="py-16 bg-gray-950">
+  <div class="container mx-auto px-4 max-w-2xl text-center">
+    <div
+      class="bg-green-900/30 border border-green-500 rounded-lg shadow-xl p-8"
+    >
+      <svg
+        class="w-16 h-16 text-green-400 mx-auto mb-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+      <h1 class="text-3xl font-extrabold text-white mb-2">
+        Pembelian Berhasil!
+      </h1>
+      <p class="text-green-200 mb-6">
+        Terima kasih, {{ transaksi.pembeli.nama }}. E-tiket Anda telah
+        diterbitkan.
+      </p>
+
+      <div class="text-left bg-gray-800 p-6 rounded-lg">
+        <h2 class="text-xl font-bold text-white mb-4">Detail Transaksi</h2>
+        <p class="mb-2">
+          <strong>ID Transaksi:</strong>
+          <span class="font-mono text-yellow-400"
+            >{{ transaksi.id_transaksi }}</span
+          >
+        </p>
+        <p class="mb-2">
+          <strong>Nomor Tiket:</strong>
+          <span class="font-mono text-yellow-400"
+            >{{ transaksi.nomor_tiket }}</span
+          >
+        </p>
+        <p class="mb-2"><strong>Konser:</strong> {{ transaksi.nama_konser }}</p>
+        <p class="mb-2">
+          <strong>Atas Nama:</strong> {{ transaksi.pembeli.nama }}
+        </p>
+        <p>
+          <strong>Total Pembayaran:</strong> Rp{{
+          '{:,.0f}'.format(transaksi.harga_transaksi) }}
+        </p>
+      </div>
+
+      <a
+        href="{{ url_for('home') }}"
+        class="inline-block mt-8 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded"
+        >Kembali ke Homepage</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}
