@@ -8,7 +8,7 @@ Aplikasi ini dibuat untuk memenuhi tugas Mata Kuliah Struktur Data.
 
 ### Daftar Isi
 
-- Tentang Proyek(#tentang-proyek)
+- #tentang-proyek
 - Fitur Utama(#fitur-utama)
 - Tangkapan Layar (Screenshot)(#tangkapan-layar-screenshot)
 - Teknologi yang Digunakan(#teknologi-yang-digunakan)
