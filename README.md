@@ -68,13 +68,13 @@ Proyek ini dibangun menggunakan beberapa teknologi, antara lain:
 
 Proyek ini disusun dan dikembangkan oleh:
 
-| Nama Mahasiswa                 | NIM          |
-| ------------------------------ | ------------ |
-| **I Wayan Agus Wiradana**      | `2401010112` |
-| **I Gede Gandhi Waisnawa**     | `2401010113` |
-| **I Jhonatan Kevin Marandita** | `2401010143` |
-| **I Kadek Budiarsa**           | `2401010145` |
-| **I Made Mahendra**            | `2401010149` |
+| Nama Mahasiswa                 | NIM          | Username Github    |
+| ------------------------------ | ------------ | ------------------ |
+| **I Wayan Agus Wiradana**      | `2401010112` | **yanguswiradana** |
+| **I Gede Gandhi Waisnawa**     | `2401010113` | **gandhibuahaha**  |
+| **I Jhonatan Kevin Marandita** | `2401010143` | **dhsau**          |
+| **I Kadek Budiarsa**           | `2401010145` | **Budi05986**      |
+| **I Made Mahendra**            | `2401010149` | **duvtt**          |
 
 <br>
 
