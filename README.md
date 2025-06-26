@@ -12,7 +12,6 @@ Aplikasi ini dibuat untuk memenuhi tugas Mata Kuliah Struktur Data.
 - Fitur Utama
 - Tangkapan Layar
 - Teknologi yang Digunakan
-- Cara Menjalankan Proyek
 - Kredit
 
 ---
