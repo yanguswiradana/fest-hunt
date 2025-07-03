@@ -12,6 +12,7 @@ Aplikasi ini dibuat untuk memenuhi tugas Mata Kuliah Struktur Data.
 - Fitur Utama
 - Tangkapan Layar
 - Teknologi yang Digunakan
+- Note penting
 - Kredit
 
 ---
@@ -60,6 +61,17 @@ Proyek ini dibangun menggunakan beberapa teknologi, antara lain:
 - **Frontend:** Flask Framework, Html, Tailwind CSS (CDN), JS
 - **Backend:** Python
 - **Database:** MySQL
+
+---
+
+## Note penting
+
+Langkah langkah sebelum bisa menjalankan program ini :
+
+- buat database dengan sql yang sudah kami siapkan
+- lalu lakukan konfigurasi pada .env nya sesuai dengan DBMS kalian
+- setelah itu run file seed.py di terminal untuk menambahkan data untuk databasenya
+- sesudah semua itu aman untuk run programnya gunakan "pyhton -m flask run"
 
 ---
 
